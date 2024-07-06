@@ -23,5 +23,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", ".eslintrc.cjs", "postcss.config.js", "tailwind.config.js"]
 }

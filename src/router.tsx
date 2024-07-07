@@ -1,16 +1,11 @@
-import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { ErrorPage, ProtectedRoutes } from './common/components';
-import { AuthProvider } from './common/contexts';
+import { createBrowserRouter } from 'react-router-dom';
+import { ErrorPage, Layout, ProtectedRoutes } from './common/components';
 import { Auth, Home } from './pages';
 
 export default createBrowserRouter([
   {
     path: '/',
-    element: (
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
-    ),
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {

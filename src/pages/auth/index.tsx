@@ -1,4 +1,4 @@
-import { Button } from '@/common/components/button';
+import { Button } from '@/common/components';
 import { useAuth } from '@/common/contexts';
 
 export default function Auth() {
@@ -9,7 +9,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-svh">
+    <div className="flex justify-center items-center w-full">
       <Button onClick={handleLoginClick}>Login</Button>
     </div>
   );

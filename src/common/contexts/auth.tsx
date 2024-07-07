@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const STORAGE_KEYS = {
   TOKEN: 'token',
@@ -6,12 +13,14 @@ const STORAGE_KEYS = {
 
 type AuthProviderState = {
   token: string | null;
-  manageLogin: (token: AuthProviderState['token']) => void;
+  manageLogin: (token: string) => void;
+  manageLogout: () => void;
 };
 
 const initialState: AuthProviderState = {
   token: null,
   manageLogin: () => {},
+  manageLogout: () => {},
 };
 
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
@@ -21,17 +30,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.getItem(STORAGE_KEYS.TOKEN)
   );
 
-  const manageLogin = (tkn: AuthProviderState['token']) => {
-    setToken(tkn);
+  const navigate = useNavigate();
 
-    if (tkn) {
+  const manageLogin = useCallback(
+    (tkn: string) => {
+      if (!tkn) {
+        throw new Error('A token is required');
+      }
+
       localStorage.setItem(STORAGE_KEYS.TOKEN, tkn);
-    } else {
-      localStorage.removeItem(STORAGE_KEYS.TOKEN);
-    }
-  };
+      setToken(tkn);
+      navigate('/home');
+    },
+    [navigate]
+  );
 
-  const value = useMemo(() => ({ token, manageLogin }), [token]);
+  const manageLogout = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+    setToken(null);
+    navigate('/login');
+  }, [navigate]);
+
+  const value = useMemo(
+    () => ({ token, manageLogin, manageLogout }),
+    [manageLogin, manageLogout, token]
+  );
 
   return (
     <AuthProviderContext.Provider value={value}>

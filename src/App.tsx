@@ -9,7 +9,7 @@ function App() {
         <Header />
 
         {/* height of Outlet = screen size - (height of header + bottom border width) */}
-        <div className="max-w-screen-xl mx-auto min-h-[calc(100svh_-_50px)] flex">
+        <div className="max-w-screen-xl mx-auto min-h-[calc(100svh_-_65px)] flex">
           <Outlet />
         </div>
       </AuthProvider>

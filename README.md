@@ -16,10 +16,12 @@ This boilerplate provides a solid foundation for building scalable and maintaina
 - **Authentication Logic:** Get started with built-in authentication logic to manage user authentication and authorization.
 - **Dark Theme:** Easily toggle between light and dark themes to enhance user experience.
 
+> This setup aims to accelerate your development process, reduce boilerplate code, and ensure your projects adhere to best practices.
+
 ## 🛠️ Prerequisites
 
 - **[Node.js](https://nodejs.org/en)**
-- **[yarn](https://yarnpkg.com/)** (You can switch to different Node Package Managers)
+- **[yarn](https://yarnpkg.com/)** (Feel free to switch to different Node Package Managers if you prefer.)
 
 ## 🚀 Development
 
@@ -37,6 +39,6 @@ yarn
 yarn dev
 ```
 
-> This setup aims to accelerate your development process, reduce boilerplate code, and ensure your projects adhere to best practices.
+> If you are not using [Vercel](https://vercel.com/) to deploy your application, you can remove `vercel.json` from your codebase.
 
 <h3 align='center'>🎉 Happy Coding</h3>

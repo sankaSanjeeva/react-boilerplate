@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
-import { AuthProvider, ThemeProvider } from './common/contexts';
-import { Header } from './common/components';
+import { AuthProvider, ThemeProvider } from './contexts';
+import { Header } from './components';
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '@/common/contexts';
+import { useAuth } from '@/contexts';
 
 export default function ProtectedRoutes() {
   const { token } = useAuth();

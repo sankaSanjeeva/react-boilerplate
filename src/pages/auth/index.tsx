@@ -1,6 +1,6 @@
-import { LoginIcon } from '../../assets/icons';
-import { Button } from '../../components';
-import { useAuth } from '../../contexts';
+import { LoginIcon } from '@/assets/icons';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts';
 
 export default function Auth() {
   const { manageLogin } = useAuth();

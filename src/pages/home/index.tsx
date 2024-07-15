@@ -96,7 +96,7 @@ export default function Home() {
       });
   }, []);
   return (
-    <div className="flex flex-col justify-center items-center gap-5 w-full">
+    <div className="w-full py-10">
       <Table<User>
         data={users}
         columns={columns}

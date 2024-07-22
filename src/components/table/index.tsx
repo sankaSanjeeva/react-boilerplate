@@ -27,6 +27,7 @@ interface TableProps<T>
   dataFlow?: 'auto' | 'pagination' | 'lazyLoading';
   totalPages?: number;
   hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
   fetchNextPage?: () => Promise<unknown>;
 }
 
@@ -35,6 +36,7 @@ export default function Table<T>({
   dataFlow = 'auto',
   totalPages,
   hasNextPage,
+  isFetchingNextPage,
   fetchNextPage,
   ...rest
 }: TableProps<T>) {
@@ -64,7 +66,13 @@ export default function Table<T>({
   });
 
   return (
-    <div className="overflow-x-auto">
+    <div
+      className={cn(
+        'overflow-x-auto',
+        isFetchingNextPage &&
+          'opacity-60 pointer-events-none transition-opacity'
+      )}
+    >
       <table
         className={cn('w-full text-slate-900 dark:text-slate-100', className)}
       >

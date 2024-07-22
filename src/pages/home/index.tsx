@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table } from '@/components';
 import { User } from '@/types';
 import { useGetUsers } from './hooks';
+import { TableSkeleton } from './components';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -32,7 +33,7 @@ const columns = [
         onCheckedChange={row.getToggleSelectedHandler()}
       />
     ),
-    size: 52,
+    size: 56,
   }),
   columnHelper.display({
     id: 'avatar',
@@ -44,7 +45,7 @@ const columns = [
         </AvatarFallback>
       </Avatar>
     ),
-    size: 92,
+    size: 80,
   }),
   columnHelper.accessor((row) => `${row.name.first} ${row.name.last}`, {
     header: 'Name',
@@ -80,7 +81,7 @@ const columns = [
         </Button>
       </div>
     ),
-    size: 124,
+    size: 116,
   }),
 ];
 
@@ -89,8 +90,8 @@ export default function Home() {
 
   const {
     data: paginatedUsers,
-    // isLoading,
-    // isFetchingNextPage,
+    isLoading,
+    isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
   } = useGetUsers();
@@ -102,16 +103,21 @@ export default function Home() {
 
   return (
     <div className="w-full py-10">
-      <Table<User>
-        data={users}
-        columns={columns}
-        onRowSelectionChange={setRowSelection}
-        state={{ rowSelection }}
-        dataFlow="pagination"
-        totalPages={paginatedUsers?.pages[0].info.totalPages}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-      />
+      {isLoading ? (
+        <TableSkeleton />
+      ) : (
+        <Table<User>
+          data={users}
+          columns={columns}
+          onRowSelectionChange={setRowSelection}
+          state={{ rowSelection }}
+          dataFlow="pagination"
+          totalPages={paginatedUsers?.pages[0].info.totalPages}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          fetchNextPage={fetchNextPage}
+        />
+      )}
     </div>
   );
 }

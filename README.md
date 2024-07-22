@@ -41,4 +41,6 @@ yarn dev
 
 > If you are not using [Vercel](https://vercel.com/) to deploy your application, you can remove `vercel.json` from your codebase.
 
+<p align='center'>If you find this template useful, please give it a star. Thanks! ⭐</p>
+
 <h3 align='center'>🎉 Happy Coding</h3>

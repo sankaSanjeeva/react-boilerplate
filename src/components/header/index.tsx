@@ -4,8 +4,8 @@ import {
   LightModeIcon,
   LogoutIcon,
 } from '@/assets/icons';
-import Button from '@/common/components/button';
-import { useAuth, useTheme } from '@/common/contexts';
+import { useAuth, useTheme } from '@/contexts';
+import { Button } from '../ui/button';
 
 export default function Header() {
   const { token, manageLogout } = useAuth();

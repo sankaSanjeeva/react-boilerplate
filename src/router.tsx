@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { ErrorPage, ProtectedRoutes } from './common/components';
+import { ErrorPage, ProtectedRoutes } from './components';
 import { Auth, Home } from './pages';
 import App from './App';
 

@@ -10,15 +10,9 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { cn } from '@/utils/style';
-import { ChevronIcon, ChevronsIcon, SortIcon } from '@/assets/icons';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-import { Button } from '../ui/button';
+import { SortIcon } from '@/assets/icons';
+import { PAGE_SIZE } from '@/constants';
+import { Pagination } from './components';
 
 interface TableProps<T>
   extends Omit<
@@ -30,25 +24,41 @@ interface TableProps<T>
     | 'onPaginationChange'
   > {
   className?: string;
+  dataFlow?: 'auto' | 'pagination' | 'lazyLoading';
+  totalPages?: number;
+  hasNextPage?: boolean;
+  fetchNextPage?: () => Promise<unknown>;
 }
 
-export default function Table<T>({ className, ...rest }: TableProps<T>) {
+export default function Table<T>({
+  className,
+  dataFlow = 'auto',
+  totalPages,
+  hasNextPage,
+  fetchNextPage,
+  ...rest
+}: TableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
   });
 
   const table = useReactTable<T>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
-    onPaginationChange: setPagination,
+    ...(dataFlow === 'pagination'
+      ? {
+          getPaginationRowModel: getPaginationRowModel(),
+          onPaginationChange: setPagination,
+          autoResetPageIndex: false,
+        }
+      : {}),
     ...rest,
     state: {
       sorting,
-      pagination,
+      ...(dataFlow === 'pagination' ? { pagination } : {}),
       ...rest.state,
     },
   });
@@ -135,71 +145,14 @@ export default function Table<T>({ className, ...rest }: TableProps<T>) {
         </tfoot>
       </table>
 
-      <div className="flex justify-between flex-wrap w-full px-6 pb-1 text-slate-600 dark:text-slate-400">
-        <div className="flex items-center gap-2">
-          <span>Show rows per page</span>
-          <Select
-            value={table.getState().pagination.pageSize.toString()}
-            onValueChange={(e) => {
-              table.setPageSize(Number(e));
-            }}
-          >
-            <SelectTrigger className="w-16">
-              <SelectValue placeholder="Theme" />
-            </SelectTrigger>
-            <SelectContent>
-              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={pageSize.toString()}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="flex items-center">
-          <div className="mr-5">
-            <span className="mr-2">Page</span>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{' '}
-              {table.getPageCount().toLocaleString()}
-            </strong>
-          </div>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => table.firstPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsIcon className="rotate-180" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronIcon className="rotate-180" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => table.lastPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronsIcon />
-          </Button>
-        </div>
-      </div>
+      {dataFlow === 'pagination' && (
+        <Pagination<T>
+          table={table}
+          totalPages={totalPages}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+        />
+      )}
     </div>
   );
 }

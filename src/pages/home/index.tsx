@@ -1,27 +1,12 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useMemo, useState } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
-import { Table } from '@/components';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PencilIcon, TrashIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-
-type Response<T> = {
-  data: T[];
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-};
-
-type User = {
-  id: number;
-  avatar: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-};
+import { Table } from '@/components';
+import { User } from '@/types';
+import { useGetUsers } from './hooks';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -53,19 +38,34 @@ const columns = [
     id: 'avatar',
     cell: (props) => (
       <Avatar className="w-14 h-14">
-        <AvatarImage src={props.row.original.avatar} />
+        <AvatarImage src={props.row.original.picture.thumbnail} />
         <AvatarFallback>
-          {`${props.row.original.first_name.at(0)}${props.row.original.last_name.at(0)}`.toUpperCase()}
+          {`${props.row.original.name.first.at(0)}${props.row.original.name.last.at(0)}`.toUpperCase()}
         </AvatarFallback>
       </Avatar>
     ),
     size: 92,
   }),
-  columnHelper.accessor((row) => `${row.first_name} ${row.last_name}`, {
+  columnHelper.accessor((row) => `${row.name.first} ${row.name.last}`, {
     header: 'Name',
+    cell: (props) => (
+      <div className="flex flex-col gap-1">
+        <span className="font-semibold">{props.getValue()}</span>
+        <span className="text-sm text-slate-400 dark:text-slate-500">
+          {props.row.original.email}
+        </span>
+      </div>
+    ),
   }),
-  columnHelper.accessor('email', {
-    header: 'Email',
+  columnHelper.accessor('location.country', {
+    header: 'Country',
+  }),
+  columnHelper.accessor('phone', {
+    header: 'Phone',
+  }),
+  columnHelper.accessor('registered.date', {
+    header: 'Registered On',
+    cell: (props) => new Date(props.getValue()).toDateString(),
   }),
   columnHelper.display({
     id: 'actions',
@@ -85,16 +85,21 @@ const columns = [
 ];
 
 export default function Home() {
-  const [users, setUsers] = useState<User[]>([]);
   const [rowSelection, setRowSelection] = useState({});
 
-  useEffect(() => {
-    axios
-      .get<Response<User>>('https://reqres.in/api/users?page=2')
-      .then((res) => {
-        setUsers(res.data.data);
-      });
-  }, []);
+  const {
+    data: paginatedUsers,
+    // isLoading,
+    // isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useGetUsers();
+
+  const users = useMemo(
+    () => paginatedUsers?.pages.flatMap((u) => u.results) ?? [],
+    [paginatedUsers?.pages]
+  );
+
   return (
     <div className="w-full py-10">
       <Table<User>
@@ -102,6 +107,10 @@ export default function Home() {
         columns={columns}
         onRowSelectionChange={setRowSelection}
         state={{ rowSelection }}
+        dataFlow="pagination"
+        totalPages={paginatedUsers?.pages[0].info.totalPages}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
       />
     </div>
   );

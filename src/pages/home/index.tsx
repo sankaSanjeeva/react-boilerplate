@@ -112,7 +112,7 @@ export default function Home() {
           onRowSelectionChange={setRowSelection}
           state={{ rowSelection }}
           dataFlow="pagination"
-          totalPages={paginatedUsers?.pages[0].info.totalPages}
+          totalRecords={paginatedUsers?.pages[0].info.totalRecords}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           fetchNextPage={fetchNextPage}

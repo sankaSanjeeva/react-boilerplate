@@ -25,7 +25,7 @@ interface TableProps<T>
   > {
   className?: string;
   dataFlow?: 'auto' | 'pagination' | 'lazyLoading';
-  totalPages?: number;
+  totalRecords?: number;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
   fetchNextPage?: () => Promise<unknown>;
@@ -34,7 +34,7 @@ interface TableProps<T>
 export default function Table<T>({
   className,
   dataFlow = 'auto',
-  totalPages,
+  totalRecords,
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
@@ -156,7 +156,7 @@ export default function Table<T>({
       {dataFlow === 'pagination' && (
         <Pagination<T>
           table={table}
-          totalPages={totalPages}
+          totalRecords={totalRecords}
           hasNextPage={hasNextPage}
           fetchNextPage={fetchNextPage}
         />

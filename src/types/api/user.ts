@@ -6,6 +6,7 @@ export type PaginatedResponse<T> = {
     page: number;
     version: string;
     totalPages?: number;
+    totalRecords?: number;
   };
 };
 

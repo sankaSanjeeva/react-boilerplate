@@ -6,6 +6,14 @@ import {
 } from '@/assets/icons';
 import { useAuth, useTheme } from '@/contexts';
 import { Button } from '../ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
 
 export default function Header() {
   const { token, manageLogout } = useAuth();
@@ -42,32 +50,45 @@ export default function Header() {
             </Button>
           )}
 
-          <Button
-            size="icon"
-            variant="ghost"
-            disabled={theme === 'system'}
-            onClick={() => changeTheme('system')}
-          >
-            <ComputerIcon />
-          </Button>
-
-          <Button
-            size="icon"
-            variant="ghost"
-            disabled={theme === 'light'}
-            onClick={() => changeTheme('light')}
-          >
-            <LightModeIcon />
-          </Button>
-
-          <Button
-            size="icon"
-            variant="ghost"
-            disabled={theme === 'dark'}
-            onClick={() => changeTheme('dark')}
-          >
-            <DarkModeIcon />
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="ghost">
+                {/* eslint-disable-next-line no-nested-ternary */}
+                {theme === 'dark' ? (
+                  <DarkModeIcon />
+                ) : theme === 'light' ? (
+                  <LightModeIcon />
+                ) : (
+                  <ComputerIcon />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Theme</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                disabled={theme === 'dark'}
+                onClick={() => changeTheme('dark')}
+              >
+                <DarkModeIcon className="mr-2 h-5 w-5" />
+                <span>Dark</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={theme === 'light'}
+                onClick={() => changeTheme('light')}
+              >
+                <LightModeIcon className="mr-2 h-5 w-5" />
+                <span>Light</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={theme === 'system'}
+                onClick={() => changeTheme('system')}
+              >
+                <ComputerIcon className="mr-2 h-5 w-5" />
+                <span>System</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

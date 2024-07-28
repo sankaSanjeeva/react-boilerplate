@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Table } from '@/components';
 import { User } from '@/types';
 import { useGetUsers } from './hooks';
-import { TableSkeleton } from './components';
+import { TableHeader, TableSkeleton } from './components';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -86,6 +86,7 @@ const columns = [
 ];
 
 export default function Home() {
+  const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState({});
 
   const {
@@ -103,6 +104,10 @@ export default function Home() {
 
   return (
     <div className="w-full py-10">
+      <TableHeader
+        searchValue={globalFilter}
+        setSearchValue={setGlobalFilter}
+      />
       {isLoading ? (
         <TableSkeleton />
       ) : (
@@ -110,7 +115,8 @@ export default function Home() {
           data={users}
           columns={columns}
           onRowSelectionChange={setRowSelection}
-          state={{ rowSelection }}
+          onGlobalFilterChange={setGlobalFilter}
+          state={{ rowSelection, globalFilter }}
           dataFlow="pagination"
           totalRecords={paginatedUsers?.pages[0].info.totalRecords}
           hasNextPage={hasNextPage}

@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   PaginationState,
@@ -19,6 +20,7 @@ interface TableProps<T>
     TableOptions<T>,
     | 'getCoreRowModel'
     | 'getSortedRowModel'
+    | 'getFilteredRowModel'
     | 'getPaginationRowModel'
     | 'onSortingChange'
     | 'onPaginationChange'
@@ -49,6 +51,7 @@ export default function Table<T>({
   const table = useReactTable<T>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     ...(dataFlow === 'pagination'
       ? {
@@ -65,10 +68,14 @@ export default function Table<T>({
     },
   });
 
+  useEffect(() => {
+    table.firstPage();
+  }, [rest.state?.globalFilter, table]);
+
   return (
     <div
       className={cn(
-        'overflow-x-auto',
+        'grid overflow-x-auto',
         isFetchingNextPage &&
           'opacity-60 pointer-events-none transition-opacity'
       )}
@@ -156,9 +163,9 @@ export default function Table<T>({
       {dataFlow === 'pagination' && (
         <Pagination<T>
           table={table}
-          totalRecords={totalRecords}
-          hasNextPage={hasNextPage}
-          fetchNextPage={fetchNextPage}
+          {...(rest.state?.globalFilter
+            ? {}
+            : { totalRecords, hasNextPage, fetchNextPage })}
         />
       )}
     </div>

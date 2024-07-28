@@ -1,6 +1,6 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { ErrorPage, ProtectedRoutes } from './components';
-import { Auth, Home } from './pages';
+import { authRoutes, homeRoutes, userRoutes } from './modules';
 import App from './App';
 
 export default createBrowserRouter([
@@ -14,13 +14,17 @@ export default createBrowserRouter([
         element: <Navigate to="home" />,
       },
       {
-        path: 'login',
-        element: <Auth />,
+        path: 'auth',
+        element: <Outlet />,
+        children: [
+          { index: true, element: <Navigate to="/auth/login" replace /> },
+          ...authRoutes,
+        ],
       },
       {
         element: <ProtectedRoutes />,
         // add remaining protected routes here
-        children: [{ path: 'home', element: <Home /> }],
+        children: [...homeRoutes, ...userRoutes],
       },
     ],
   },

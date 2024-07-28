@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table } from '@/components';
 import { User } from '@/types';
-import { useGetUsers } from './hooks';
-import { TableHeader, TableSkeleton } from './components';
 import {
   Dialog,
   DialogClose,
@@ -18,6 +16,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { TableHeader, TableSkeleton } from '../../components';
+import { useGetUsers } from '../../hooks';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -116,7 +116,7 @@ const columns = [
   }),
 ];
 
-export default function Home() {
+export default function UserList() {
   const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState({});
 

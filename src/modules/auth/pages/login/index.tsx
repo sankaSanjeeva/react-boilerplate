@@ -2,7 +2,7 @@ import { LoginIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts';
 
-export default function Auth() {
+export default function Login() {
   const { manageLogin } = useAuth();
 
   const handleLoginClick = () => {

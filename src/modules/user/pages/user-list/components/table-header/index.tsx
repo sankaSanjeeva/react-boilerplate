@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { MagnifierIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,7 +23,9 @@ export default function TableHeader({ searchValue, setSearchValue }: Props) {
           placeholder="Search..."
         />
       </div>
-      <Button className="h-12 rounded-xl text-base">+ Add member</Button>
+      <Link to="../create">
+        <Button className="h-12 rounded-xl text-base">+ Add member</Button>
+      </Link>
     </div>
   );
 }

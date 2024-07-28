@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { TableHeader, TableSkeleton } from '../../components';
+import { TableHeader, TableSkeleton } from './components';
 import { useGetUsers } from '../../hooks';
 
 const columnHelper = createColumnHelper<User>();

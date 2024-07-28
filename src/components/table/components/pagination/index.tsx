@@ -3,14 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Table } from '@tanstack/react-table';
 import { ChevronIcon, ChevronsIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { PAGE_SIZES } from '@/constants';
 
 interface Props<T> {
   table: Table<T>;
@@ -49,16 +41,25 @@ export default function Pagination<T>({
     return table.getPageCount();
   }, []);
 
-  const pageCount = table.getState().pagination.pageSize;
+  /**
+   * changing 'show row per page' has been removed temporally since it make a few bugs with server side pagination
+   */
+  // const pageCount = table.getState().pagination.pageSize;
 
-  useEffect(() => {
-    setTotalPages(getTotalPages());
-  }, [pageCount]);
+  useEffect(
+    () => {
+      setTotalPages(getTotalPages());
+    },
+    [
+      /** pageCount */
+    ]
+  );
 
   return (
     <div className="flex justify-between flex-wrap w-full px-6 pb-1 text-sm text-slate-600 dark:text-slate-400">
       <div className="flex items-center gap-2">
-        <span>Show rows per page</span>
+        {/* changing 'show row per page' has been removed temporally since it make a few bugs with server side pagination */}
+        {/* <span>Show rows per page</span>
         <Select
           value={pageCount.toString()}
           onValueChange={(e) => {
@@ -75,7 +76,7 @@ export default function Pagination<T>({
               </SelectItem>
             ))}
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
 
       <div className="flex items-center">

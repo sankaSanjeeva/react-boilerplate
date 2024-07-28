@@ -8,6 +8,16 @@ import { Table } from '@/components';
 import { User } from '@/types';
 import { useGetUsers } from './hooks';
 import { TableHeader, TableSkeleton } from './components';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -76,9 +86,30 @@ const columns = [
         <Button size="icon" variant="ghost">
           <PencilIcon />
         </Button>
-        <Button size="icon" variant="ghost">
-          <TrashIcon />
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="icon" variant="ghost">
+              <TrashIcon />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription className="!mt-4">
+                This action cannot be undone. This will permanently delete this
+                account and remove data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button variant="destructive">Delete</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     ),
     size: 116,

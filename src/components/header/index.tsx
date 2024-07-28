@@ -14,6 +14,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 
 export default function Header() {
   const { token, manageLogout } = useAuth();
@@ -39,15 +49,29 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           {token && (
-            <Button
-              className="gap-3"
-              size="sm"
-              variant="ghost"
-              onClick={handleLoginClick}
-            >
-              <LogoutIcon />
-              <span className="hidden md:block">Logout</span>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="gap-3" size="sm" variant="ghost">
+                  <LogoutIcon />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription className="!mt-4">
+                    This will be returned to the login screen.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button onClick={handleLoginClick}>Logout</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           )}
 
           <DropdownMenu>

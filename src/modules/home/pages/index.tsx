@@ -5,7 +5,7 @@ export default function Home() {
     <div className="w-full py-10">
       <ul>
         <li>
-          <Link to="../user/list">Users list</Link>
+          <Link to="../users/list">Users list</Link>
         </li>
       </ul>
     </div>

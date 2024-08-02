@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PencilIcon, TrashIcon } from '@/assets/icons';
+import { OpenIcon, PencilIcon, TrashIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table } from '@/components';
@@ -16,8 +17,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { TableHeader, TableSkeleton } from './components';
+import { TableHeader, TableHeaderSkeleton } from './components';
 import { useGetUsers } from '../../hooks';
+import TableSkeleton from './table-skeleton';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -81,8 +83,13 @@ const columns = [
   columnHelper.display({
     id: 'actions',
     header: () => <div className="w-full text-center">Actions</div>,
-    cell: () => (
+    cell: (props) => (
       <div className="flex">
+        <Link to={`../${props.row.original.id.value}`}>
+          <Button size="icon" variant="ghost">
+            <OpenIcon />
+          </Button>
+        </Link>
         <Button size="icon" variant="ghost">
           <PencilIcon />
         </Button>
@@ -133,28 +140,34 @@ export default function UserList() {
     [paginatedUsers?.pages]
   );
 
+  if (isLoading) {
+    return (
+      <div className="w-full py-10">
+        <TableHeaderSkeleton />
+        <TableSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full py-10">
       <TableHeader
         searchValue={globalFilter}
         setSearchValue={setGlobalFilter}
       />
-      {isLoading ? (
-        <TableSkeleton />
-      ) : (
-        <Table<User>
-          data={users}
-          columns={columns}
-          onRowSelectionChange={setRowSelection}
-          onGlobalFilterChange={setGlobalFilter}
-          state={{ rowSelection, globalFilter }}
-          dataFlow="pagination"
-          totalRecords={paginatedUsers?.pages[0].info.totalRecords}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          fetchNextPage={fetchNextPage}
-        />
-      )}
+
+      <Table<User>
+        data={users}
+        columns={columns}
+        onRowSelectionChange={setRowSelection}
+        onGlobalFilterChange={setGlobalFilter}
+        state={{ rowSelection, globalFilter }}
+        dataFlow="pagination"
+        totalRecords={paginatedUsers?.pages[0].info.totalRecords}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
     </div>
   );
 }

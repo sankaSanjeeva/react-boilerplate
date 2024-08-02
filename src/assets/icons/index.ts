@@ -5,6 +5,7 @@ export { default as CloseIcon } from './close.svg?react';
 export { default as LoginIcon } from './login.svg?react';
 export { default as LogoutIcon } from './logout.svg?react';
 export { default as MagnifierIcon } from './magnifier.svg?react';
+export { default as OpenIcon } from './open.svg?react';
 export { default as PencilIcon } from './pencil.svg?react';
 export { default as SortIcon } from './sort.svg?react';
 export { default as TrashIcon } from './trash.svg?react';

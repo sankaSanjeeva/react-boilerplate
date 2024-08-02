@@ -39,7 +39,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-10 backdrop-blur border-b border-slate-900/10 dark:border-slate-50/10 bg-white dark:bg-slate-900/75">
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center p-3">
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center py-3 px-10">
         <h1 className="inline-flex gap-5">
           <img src="/react.svg" alt="icon" />
           <span className="text-xl md:text-2xl font-semibold">

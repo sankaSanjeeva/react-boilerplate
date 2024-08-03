@@ -19,7 +19,7 @@ export default function TableHeader({ searchValue, setSearchValue }: Props) {
         <Input
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          className="max-w-md pl-12 h-12 rounded-xl text-base placeholder:italic"
+          className="max-w-md pl-12 h-12 rounded-xl text-base placeholder:italic !bg-transparent"
           placeholder="Search..."
         />
       </div>

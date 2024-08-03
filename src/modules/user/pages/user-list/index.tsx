@@ -142,7 +142,7 @@ export default function UserList() {
 
   if (isLoading) {
     return (
-      <div className="w-full py-10">
+      <div className="w-full py-5">
         <TableHeaderSkeleton />
         <TableSkeleton />
       </div>
@@ -150,7 +150,7 @@ export default function UserList() {
   }
 
   return (
-    <div className="w-full py-10">
+    <div className="w-full py-5">
       <TableHeader
         searchValue={globalFilter}
         setSearchValue={setGlobalFilter}

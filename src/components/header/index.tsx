@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
   ComputerIcon,
   DarkModeIcon,
@@ -25,6 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
+import { cn } from '@/utils/style';
 
 export default function Header() {
   const { token, manageLogout } = useAuth();
@@ -40,15 +41,29 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-10 backdrop-blur border-b border-slate-900/10 dark:border-slate-50/10 bg-white dark:bg-slate-900/75">
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center py-3 px-10">
-        <Link to="/" className="inline-flex gap-5">
+      <div className="max-w-screen-xl mx-auto flex items-center py-3 px-10">
+        <Link to="/home" className="inline-flex gap-5">
           <img src="/react.svg" alt="icon" />
           <h1 className="text-xl md:text-2xl font-semibold">
             {import.meta.env.VITE_APP_TITLE}
           </h1>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <NavLink
+          to="/home"
+          className={({ isActive }) =>
+            cn(
+              'mx-10 font-semibold transition-colors',
+              isActive
+                ? 'text-gray-900 dark:text-gray-100'
+                : 'text-gray-900/50 dark:text-gray-100/75'
+            )
+          }
+        >
+          Docs
+        </NavLink>
+
+        <div className="flex items-center gap-2 ml-auto">
           {token && (
             <Dialog>
               <DialogTrigger asChild>

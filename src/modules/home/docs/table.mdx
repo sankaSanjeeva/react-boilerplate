@@ -1,0 +1,112 @@
+## Table
+
+This component is created based on [TanStack Table](https://tanstack.com/table/latest). It is a generic function, so you need to define a type when using it. The component comes with some custom props and `TableOptions` props.
+
+```ts
+interface TableProps<T>
+  // props extracted from TableOptions
+  extends Omit<
+    TableOptions<T>,
+    | 'getCoreRowModel'
+    | 'getSortedRowModel'
+    | 'getFilteredRowModel'
+    | 'getPaginationRowModel'
+    | 'onSortingChange'
+    | 'onPaginationChange'
+  > {
+  // custom props
+  className?: string;
+  dataFlow?: 'auto' | 'pagination' | 'lazyLoading';
+  totalRecords?: number;
+  hasNextPage?: boolean;
+  isFetchingNextPage?: boolean;
+  fetchNextPage?: () => Promise<unknown>;
+}
+```
+
+* `className` to add class names to the `table` tag(eg-: `className="rounded-2xl bg-slate-200 dark:bg-slate-800"`). (optional)
+* `dataFlow` to define whether it is a normal table, a table with pagination, or is it uses lazy loading. (default `auto`)
+* `totalRecords` to set the total page number when using serverside pagination, (optional except serverside pagination)
+* `hasNextPage` to inform whether has a next page or not when using serverside pagination. (optional except serverside pagination)
+* `isFetchingNextPage` to inform whether next page is fetching when using serverside pagination. (optional except serverside pagination)
+* `fetchNextPage` manually fetch next page when using serverside pagination. (optional except serverside pagination)
+
+### Usage
+
+1 Define columns. [check here](https://tanstack.com/table/latest/docs/api/core/column-def)
+
+```ts
+type Person = {
+  firstName: string
+  lastName: string
+  age: number
+  visits: number
+  status: string
+  progress: number
+}
+```
+
+```tsx
+const columnHelper = createColumnHelper<Person>()
+
+const columns = [
+  columnHelper.accessor('firstName', {
+    cell: info => info.getValue(),
+  }),
+  columnHelper.accessor(row => row.lastName, {
+    id: 'lastName',
+    cell: info => <i>{info.getValue()}</i>,
+    header: () => <span>Last Name</span>,
+  }),
+  columnHelper.accessor('age', {
+    header: () => 'Age',
+    cell: info => info.renderValue(),
+  }),
+  columnHelper.accessor('visits', {
+    header: () => <span>Visits</span>,
+  }),
+  columnHelper.accessor('status', {
+    header: 'Status',
+  }),
+  columnHelper.accessor('progress', {
+    header: 'Profile Progress',
+  }),
+]
+```
+
+2 Define data
+
+```ts
+const data: Person[] = [
+  {
+    firstName: 'tanner',
+    lastName: 'linsley',
+    age: 24,
+    visits: 100,
+    status: 'In Relationship',
+    progress: 50,
+  },
+  {
+    firstName: 'tandy',
+    lastName: 'miller',
+    age: 40,
+    visits: 40,
+    status: 'Single',
+    progress: 80,
+  },
+  {
+    firstName: 'joe',
+    lastName: 'dirte',
+    age: 45,
+    visits: 20,
+    status: 'Complicated',
+    progress: 10,
+  },
+]
+```
+
+3 Pass columns and data as props
+
+```tsx
+<Table data={data} columns={columns} />
+```

@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const manageLogout = useCallback(() => {
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     setToken(null);
-    navigate('/login');
+    navigate('/auth');
   }, [navigate]);
 
   const value = useMemo(

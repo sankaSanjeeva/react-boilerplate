@@ -1,0 +1,21 @@
+## Breadcrumbs
+
+You can render `<Breadcrumbs/>` anywhere you want, probably in the root component. There is no configuration required. The only thing need to do is add handle with a crumb
+
+```tsx
+{
+  path: 'create',
+  element: <UserCreate />,
+  handle: {
+    crumb: () => <span>Create</span>,
+  },
+},
+{
+  path: ':userId',
+  element: <UserView />,
+  handle: {
+    crumb: () => <span>Details</span>,
+  },
+},
+...
+```

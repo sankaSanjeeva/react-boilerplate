@@ -10,8 +10,9 @@ const useGetUsers = () => {
     const { data } = await api.get<PaginatedResponse<User>>(
       `/?page=${pageParam}&results=${PAGE_SIZE}`
     );
-    // randomuser.me API doesn't return total page count since it returns random data. Therefore assumed it as 5 pages
-    data.info.totalPages = 5;
+    // randomuser.me API doesn't return total record count since it returns random data. Therefore assumed it as 50 records
+    data.info.totalRecords = 50;
+    data.info.totalPages = 50 / PAGE_SIZE;
     return data;
   };
 

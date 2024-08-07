@@ -1,13 +1,25 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { createColumnHelper } from '@tanstack/react-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PencilIcon, TrashIcon } from '@/assets/icons';
+import { OpenIcon, PencilIcon, TrashIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table } from '@/components';
 import { User } from '@/types';
-import { useGetUsers } from './hooks';
-import { TableSkeleton } from './components';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { TableHeader, TableHeaderSkeleton } from './components';
+import { useGetUsers } from '../../hooks';
+import TableSkeleton from './table-skeleton';
 
 const columnHelper = createColumnHelper<User>();
 
@@ -71,21 +83,48 @@ const columns = [
   columnHelper.display({
     id: 'actions',
     header: () => <div className="w-full text-center">Actions</div>,
-    cell: () => (
+    cell: (props) => (
       <div className="flex">
+        <Link to={`../${props.row.original.id.value}`}>
+          <Button size="icon" variant="ghost">
+            <OpenIcon />
+          </Button>
+        </Link>
         <Button size="icon" variant="ghost">
           <PencilIcon />
         </Button>
-        <Button size="icon" variant="ghost">
-          <TrashIcon />
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="icon" variant="ghost">
+              <TrashIcon />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription className="!mt-4">
+                This action cannot be undone. This will permanently delete this
+                account and remove data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button variant="destructive">Delete</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     ),
     size: 116,
   }),
 ];
 
-export default function Home() {
+export default function UserList() {
+  const [globalFilter, setGlobalFilter] = useState('');
   const [rowSelection, setRowSelection] = useState({});
 
   const {
@@ -101,23 +140,34 @@ export default function Home() {
     [paginatedUsers?.pages]
   );
 
-  return (
-    <div className="w-full py-10">
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <div className="w-full py-5">
+        <TableHeaderSkeleton />
         <TableSkeleton />
-      ) : (
-        <Table<User>
-          data={users}
-          columns={columns}
-          onRowSelectionChange={setRowSelection}
-          state={{ rowSelection }}
-          dataFlow="pagination"
-          totalPages={paginatedUsers?.pages[0].info.totalPages}
-          hasNextPage={hasNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          fetchNextPage={fetchNextPage}
-        />
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full py-5">
+      <TableHeader
+        searchValue={globalFilter}
+        setSearchValue={setGlobalFilter}
+      />
+
+      <Table<User>
+        data={users}
+        columns={columns}
+        onRowSelectionChange={setRowSelection}
+        onGlobalFilterChange={setGlobalFilter}
+        state={{ rowSelection, globalFilter }}
+        dataFlow="pagination"
+        totalRecords={paginatedUsers?.pages[0].info.totalRecords}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        fetchNextPage={fetchNextPage}
+      />
     </div>
   );
 }

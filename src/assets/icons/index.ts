@@ -1,3 +1,4 @@
+export { default as CalendarIcon } from './calendar.svg?react';
 export { default as CheckIcon } from './check.svg?react';
 export { default as ChevronIcon } from './chevron.svg?react';
 export { default as ChevronsIcon } from './chevrons.svg?react';

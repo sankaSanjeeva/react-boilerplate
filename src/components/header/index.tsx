@@ -49,19 +49,21 @@ export default function Header() {
           </h1>
         </Link>
 
-        <NavLink
-          to="/home"
-          className={({ isActive }) =>
-            cn(
-              'mx-10 font-semibold transition-colors',
-              isActive
-                ? 'text-gray-900 dark:text-gray-100'
-                : 'text-gray-900/50 dark:text-gray-100/75'
-            )
-          }
-        >
-          Docs
-        </NavLink>
+        {token && (
+          <NavLink
+            to="/home"
+            className={({ isActive }) =>
+              cn(
+                'mx-10 font-semibold transition-colors',
+                isActive
+                  ? 'text-gray-900 dark:text-gray-100'
+                  : 'text-gray-900/50 dark:text-gray-100/75'
+              )
+            }
+          >
+            Docs
+          </NavLink>
+        )}
 
         <div className="flex items-center gap-2 ml-auto">
           {token && (

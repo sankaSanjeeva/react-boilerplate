@@ -10,7 +10,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full">
+    <div className="flex justify-center items-center w-full min-h-[calc(100svh_-_105px)]">
       <Button className="gap-3" onClick={handleLoginClick}>
         <LoginIcon />
         <span>Login</span>

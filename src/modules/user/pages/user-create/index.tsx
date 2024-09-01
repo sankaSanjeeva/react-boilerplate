@@ -3,12 +3,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import { LocationInfo, PersonalInfo } from './components';
 import { FileInput } from '@/components';
 
 const formSchema = z.object({
-  image: z.any().refine((files) => files?.length === 1, 'Image is required.'),
+  image: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => {
+      return !file || file.size <= 1024 * 1024 * 2;
+    }, 'File size must be less than 2MB')
+    .refine((file) => {
+      return file?.type.startsWith('image');
+    }, 'File must be an image'),
   firstName: z.string().min(2, 'First name must be at least 2 characters.'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters.'),
   email: z.string().email('Email must be a valid email address'),
@@ -34,7 +48,7 @@ export default function UserCreate() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 p-10 w-full"
+        className="flex flex-col w-full gap-5 p-10"
       >
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">New User</h1>
@@ -46,23 +60,30 @@ export default function UserCreate() {
             control={form.control}
             name="image"
             render={({ field }) => (
-              <FormItem
-                className="w-full max-w-2xl bg-cover bg-no-repeat rounded-xl overflow-hidden"
-                style={
-                  field.value
-                    ? {
-                        backgroundImage: `url(${URL.createObjectURL(field.value[0])})`,
-                      }
-                    : undefined
-                }
-              >
-                <FormControl>
-                  <FileInput
-                    accept={{ 'image/*': [] }}
-                    multiple={false}
-                    {...field}
-                  />
-                </FormControl>
+              <FormItem>
+                <div
+                  className="bg-no-repeat bg-cover rounded-xl w-fit"
+                  style={
+                    field.value
+                      ? {
+                          backgroundImage: `url(${URL.createObjectURL(field.value)})`,
+                        }
+                      : undefined
+                  }
+                >
+                  <FormControl>
+                    <FileInput
+                      accept={{ 'image/*': [] }}
+                      multiple={false}
+                      onChange={(files) => {
+                        field.onChange(files?.[0]);
+                      }}
+                      className="w-80 h-80"
+                      placeholder="Drag 'n' drop here, or click to select a profile picture"
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -72,7 +93,7 @@ export default function UserCreate() {
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+          <CardContent className="grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
             <PersonalInfo />
           </CardContent>
         </Card>
@@ -81,7 +102,7 @@ export default function UserCreate() {
           <CardHeader>
             <CardTitle>Address</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+          <CardContent className="grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
             <LocationInfo />
           </CardContent>
         </Card>

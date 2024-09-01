@@ -85,14 +85,16 @@ const columns = [
     header: () => <div className="w-full text-center">Actions</div>,
     cell: (props) => (
       <div className="flex">
-        <Link to={`../${props.row.original.id.value}`}>
+        <Link to={`../${props.row.original.login.uuid}`}>
           <Button size="icon" variant="ghost">
             <OpenIcon />
           </Button>
         </Link>
-        <Button size="icon" variant="ghost">
-          <PencilIcon />
-        </Button>
+        <Link to={`../${props.row.original.login.uuid}/edit`}>
+          <Button size="icon" variant="ghost">
+            <PencilIcon />
+          </Button>
+        </Link>
         <Dialog>
           <DialogTrigger asChild>
             <Button size="icon" variant="ghost">

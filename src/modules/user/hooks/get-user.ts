@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PaginatedResponse, User } from '@/types';
 import { useAxios } from '@/hooks';
 
-const useGetUser = (userId: string) => {
+const useGetUser = (userId?: string) => {
   const { api } = useAxios();
 
   const queryFn = async () => {

@@ -79,7 +79,7 @@ export default function PersonalInfo() {
         control={form.control}
         name="dob"
         render={({ field }) => (
-          <FormItem className="flex flex-col">
+          <FormItem>
             <FormLabel>Date of birth</FormLabel>
             <Popover>
               <PopoverTrigger asChild>
@@ -87,7 +87,7 @@ export default function PersonalInfo() {
                   <Button
                     variant="outline"
                     className={cn(
-                      'w-[240px] pl-3 text-left font-normal',
+                      'w-full pl-3 text-left font-normal',
                       !field.value && 'text-muted-foreground'
                     )}
                   >

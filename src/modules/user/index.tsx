@@ -37,6 +37,13 @@ const userRoutes: RouteObject[] = [
           crumb: () => <span>Details</span>,
         },
       },
+      {
+        path: ':userId/edit',
+        element: <UserCreate />,
+        handle: {
+          crumb: () => <span>Edit</span>,
+        },
+      },
     ],
   },
 ];

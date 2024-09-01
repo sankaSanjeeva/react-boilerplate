@@ -3,20 +3,37 @@ import { DropzoneOptions, useDropzone } from 'react-dropzone';
 import { cn } from '@/utils/style';
 
 interface Props extends DropzoneOptions {
-  value?: File[];
-  onChange?: (value?: File[]) => void;
+  placeholder?: string;
+  className?: string;
+  onChange?: (files?: File[]) => void;
 }
 
 const FileInput = forwardRef<HTMLDivElement, Props>(
-  ({ value, onChange, ...rest }, ref) => {
+  (
+    {
+      className,
+      placeholder = `Drag 'n' drop some files here, or click to select files`,
+      onChange,
+      ...rest
+    },
+    ref
+  ) => {
     const onDrop = useCallback(
       (acceptedFiles: File[]) => {
-        onChange?.(acceptedFiles);
+        if (acceptedFiles.length > 0) {
+          onChange?.(acceptedFiles);
+        }
       },
       [onChange]
     );
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const {
+      getRootProps,
+      getInputProps,
+      isFocused,
+      isDragAccept,
+      isDragReject,
+    } = useDropzone({
       onDrop,
       ...rest,
     });
@@ -25,17 +42,18 @@ const FileInput = forwardRef<HTMLDivElement, Props>(
       <div
         {...getRootProps({ ref })}
         className={cn(
-          'h-40 flex justify-center items-center rounded-xl border-dashed border-2 border-sky-500/50 transition-colors',
-          isDragActive && 'border-sky-500'
+          'h-40 flex justify-center items-center rounded-xl outline-dashed outline-2 outline-offset-2 outline-sky-500/50 transition-colors',
+          isFocused && 'outline-sky-500',
+          isDragAccept && 'outline-green-500',
+          isDragReject && 'outline-red-500',
+          className
         )}
       >
         <input {...getInputProps()} />
-        {isDragActive ? (
+        {isDragAccept ? (
           <p>Drop the files here ...</p>
         ) : (
-          <p>
-            Drag &apos;n&apos; drop some files here, or click to select files
-          </p>
+          <p className="text-center">{placeholder}</p>
         )}
       </div>
     );

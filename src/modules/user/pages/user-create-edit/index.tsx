@@ -22,8 +22,8 @@ export default function UserCreate() {
   const navigate = useNavigate();
 
   const { isLoading, refetch } = useGetUser(userId);
-  const { mutate: createUser } = useCreateUser();
-  const { mutate: editUser } = useEditUser();
+  const { isPending: isCreating, mutate: createUser } = useCreateUser();
+  const { isPending: isEditing, mutate: editUser } = useEditUser();
 
   const form = useForm<CreateUser>({
     resolver: zodResolver(createUserSchema),
@@ -78,7 +78,9 @@ export default function UserCreate() {
       >
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">{userId ? 'Edit' : 'New'} User</h1>
-          <Button className="gap-2">{userId ? 'Update' : 'Create'}</Button>
+          <Button className="gap-2" disabled={isCreating || isEditing}>
+            {userId ? 'Update' : 'Create'}
+          </Button>
         </div>
 
         <Card className="flex gap-5 p-6 !bg-transparent">

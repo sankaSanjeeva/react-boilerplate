@@ -6,8 +6,12 @@ const useCreateUser = () => {
   // const { api } = useAxios();
 
   const createUser = (data: CreateUser) => {
-    // randomuser.me API doesn't have any APIs to create user. So here a Promise.resolve(data) is returned for demo purpose
-    return Promise.resolve({ ...data, userId: '123456789' });
+    // randomuser.me API doesn't have any APIs to create user. So here a Promise is returned for demo purpose
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ ...data, userId: '123456789' });
+      }, 1000);
+    }) as Promise<CreateUser & { userId: string }>;
   };
 
   return useMutation({

@@ -21,11 +21,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run TypeScript check
-        run: npx tsc -p tsconfig.json --noEmit
+      - name: Run TypeScript check and Build
+        run: yarn build
 
       - name: Run ESLint
-        run: yarn eslint src/**/*.{js,ts,tsx}
+        run: yarn lint
 
       - name: Execute Unit tests
-        run: yarn vitest
+        run: yarn test

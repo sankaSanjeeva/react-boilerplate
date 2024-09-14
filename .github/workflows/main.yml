@@ -12,11 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: List staged files
-        run: git diff --name-only --cached
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -26,5 +21,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run lint-staged for ESLint, Vitest and TypeScript checks
-        run: npx lint-staged
+      - name: Run TypeScript check
+        run: npx tsc -p tsconfig.json --noEmit
+
+      - name: Run ESLint
+        run: yarn eslint src/**/*.{js,ts,tsx}
+
+      - name: Execute Unit tests
+        run: yarn vitest

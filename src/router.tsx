@@ -3,7 +3,7 @@ import { ErrorPage, ProtectedRoutes } from './components';
 import { authRoutes, homeRoutes, userRoutes } from './modules';
 import App from './App';
 
-export default createBrowserRouter([
+export const routes = [
   {
     path: '/',
     element: <App />,
@@ -28,4 +28,6 @@ export default createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export default createBrowserRouter(routes);

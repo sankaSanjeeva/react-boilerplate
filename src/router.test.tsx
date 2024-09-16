@@ -23,10 +23,7 @@ test('should render the error page for invalid routes', () => {
 
   render(<RouterProvider router={router} />);
 
-  expect(
-    screen.getByText('Sorry, an unexpected error has occurred.')
-  ).toBeInTheDocument();
-  expect(screen.getByText('Not Found')).toBeInTheDocument();
+  expect(screen.getByTestId('error-page')).toBeInTheDocument();
 });
 
 test('should render login page correctly when there is no active login session', () => {

@@ -6,14 +6,25 @@ import App from './App';
 const appTitle = import.meta.env.VITE_APP_TITLE;
 
 test('render app component', () => {
-  const routes = [{ path: '/home', element: <App /> }];
+  const routes = [
+    {
+      path: '/home',
+      element: <App />,
+      children: [
+        {
+          index: true,
+          element: <div data-testid="child-route" />,
+        },
+      ],
+    },
+  ];
 
   const router = createMemoryRouter(routes, {
     initialEntries: ['/', '/home'],
-    initialIndex: 1,
   });
 
   render(<RouterProvider router={router} />);
 
   expect(screen.getByText(appTitle)).toBeInTheDocument();
+  expect(screen.getByTestId('child-route')).toBeInTheDocument();
 });

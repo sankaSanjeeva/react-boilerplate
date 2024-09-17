@@ -49,7 +49,7 @@ const FileInput = forwardRef<HTMLDivElement, Props>(
           className
         )}
       >
-        <input {...getInputProps()} />
+        <input data-testid="file-input" {...getInputProps()} />
         {isDragAccept ? (
           <p>Drop the files here ...</p>
         ) : (

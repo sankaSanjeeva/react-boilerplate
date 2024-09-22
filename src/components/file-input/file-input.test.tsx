@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { user } from '@/test-utils';
 import FileInput from '.';
 
 const mockedOnChange = vi.fn();
@@ -20,8 +20,6 @@ test('should render file input with custom placeholder', () => {
 });
 
 test('should call onChange callback with selected file', async () => {
-  const user = userEvent.setup();
-
   render(<FileInput onChange={mockedOnChange} />);
 
   const file = new File(['hello'], 'hello.png', { type: 'image/png' });

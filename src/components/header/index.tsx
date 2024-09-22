@@ -69,7 +69,12 @@ export default function Header() {
           {token && (
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="gap-3" size="sm" variant="ghost">
+                <Button
+                  className="gap-3"
+                  size="sm"
+                  variant="ghost"
+                  data-testid="logout-button"
+                >
                   <LogoutIcon />
                 </Button>
               </DialogTrigger>
@@ -94,7 +99,7 @@ export default function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button size="icon" variant="ghost">
+              <Button size="icon" variant="ghost" data-testid="theme-button">
                 {/* eslint-disable-next-line no-nested-ternary */}
                 {theme === 'dark' ? (
                   <DarkModeIcon />

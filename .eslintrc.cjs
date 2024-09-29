@@ -12,6 +12,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
+  ignorePatterns: ['/*', '!/src'],
   overrides: [
     {
       env: {

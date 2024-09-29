@@ -3,7 +3,7 @@ import { MDXProvider } from '@mdx-js/react';
 const components = {
   h1: (props: React.HTMLAttributes<HTMLElement>) => (
     // eslint-disable-next-line jsx-a11y/heading-has-content
-    <h1 className="pb-2 my-3 text-3xl font-semibold" {...props} />
+    <h1 className="mt-6 mb-3 text-3xl font-semibold" {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLElement>) => (
     // eslint-disable-next-line jsx-a11y/heading-has-content

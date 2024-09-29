@@ -1,21 +1,26 @@
-import { Breadcrumbs, DocProvider, Examples, Table } from '../docs';
+import {
+  Breadcrumbs,
+  DocProvider,
+  Examples,
+  Lint,
+  Structure,
+  Table,
+  Testing,
+} from '../docs';
 
 export default function Home() {
   return (
-    <div className="w-full py-10">
+    <div className="w-full py-5">
       <DocProvider>
-        <h1
-          className="pb-2 my-3 text-3xl font-semibold scroll-m-20 "
-          id="common-components"
-        >
-          Examples
-        </h1>
+        <Structure />
+
+        <Lint />
+
+        <Testing />
+
         <Examples />
 
-        <h1
-          className="pb-2 my-3 text-3xl font-semibold scroll-m-20 "
-          id="common-components"
-        >
+        <h1 className="pb-2 my-3 text-3xl font-semibold scroll-m-20">
           Common components
         </h1>
         <Breadcrumbs />

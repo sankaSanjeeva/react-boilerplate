@@ -1,0 +1,48 @@
+# Folder Structure
+
+This project is structured as follows:
+
+```
+src
+├── assets
+│   └── icons
+├── components
+│   ├── breadcrumbs
+│   ├── header
+│   ├── table
+│   └── ui
+├── constants
+├── contexts
+├── hooks
+├── modules
+│   ├── auth
+│   │   └── pages
+│   │       └── login
+│   ├── home
+│   │   ├── docs
+│   │   └── pages
+│   └── user
+│       ├── hooks
+│       ├── pages
+│       │   ├── user-create-edit
+│       │   │   └── components
+│       │   │       ├── location-info
+│       │   │       └── personal-info
+│       │   ├── user-list
+│       │   │   └── components
+│       │   │       └── table-header
+│       │   └── user-view
+│       └── schema
+├── types
+│   └── api
+└── utils
+```
+
+* `assets` All assets, such as images and icons.
+* `components` Common components and components that come from the shadcn/ui.
+* `constants` Common onstants values.
+* `contexts` Context APIs.
+* `hooks` Common hooks.
+* `modules` All the feature modules. Each module may contain `hooks`, `pages`, `components`, `schema`, etc. Each pages directory may contain `components`.
+* `types` Common types.
+* `assets` Common utils.

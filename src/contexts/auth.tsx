@@ -6,10 +6,7 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const STORAGE_KEYS = {
-  TOKEN: 'token',
-};
+import { TOKEN_STORAGE_KEY } from '@/constants';
 
 type AuthProviderState = {
   token: string | null;
@@ -17,17 +14,11 @@ type AuthProviderState = {
   manageLogout: () => void;
 };
 
-const initialState: AuthProviderState = {
-  token: null,
-  manageLogin: () => {},
-  manageLogout: () => {},
-};
-
-const AuthProviderContext = createContext<AuthProviderState>(initialState);
+const AuthProviderContext = createContext<AuthProviderState | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthProviderState['token']>(() =>
-    localStorage.getItem(STORAGE_KEYS.TOKEN)
+    localStorage.getItem(TOKEN_STORAGE_KEY)
   );
 
   const navigate = useNavigate();
@@ -38,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('A token is required');
       }
 
-      localStorage.setItem(STORAGE_KEYS.TOKEN, tkn);
+      localStorage.setItem(TOKEN_STORAGE_KEY, tkn);
       setToken(tkn);
       navigate('/home');
     },
@@ -46,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const manageLogout = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEYS.TOKEN);
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
     setToken(null);
     navigate('/auth');
   }, [navigate]);
@@ -66,8 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthProviderContext);
 
-  if (context === undefined)
-    throw new Error('useAuth must be used within a AuthProvider');
+  if (!context) throw new Error('useAuth must be used within a AuthProvider');
 
   return context;
 };

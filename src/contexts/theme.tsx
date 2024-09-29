@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { THEME_STORAGE_KEY } from '@/constants';
 
 type Theme = 'dark' | 'light' | 'system';
 
@@ -14,16 +15,11 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
-const initialState: ThemeProviderState = {
-  theme: 'system',
-  setTheme: () => null,
-};
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+const ThemeProviderContext = createContext<ThemeProviderState | null>(null);
 
 export function ThemeProvider({ children }: PropsWithChildren) {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem('theme') as Theme) || 'system'
+    () => (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || 'system'
   );
 
   useEffect(() => {
@@ -50,7 +46,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     () => ({
       theme,
       setTheme: (t: Theme) => {
-        localStorage.setItem('theme', t);
+        localStorage.setItem(THEME_STORAGE_KEY, t);
         setTheme(t);
       },
     }),
@@ -67,8 +63,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
 
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider');
+  if (!context) throw new Error('useTheme must be used within a ThemeProvider');
 
   return context;
 };

@@ -21,5 +21,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run lint-staged for ESLint and TypeScript checks
-        run: npx lint-staged
+      - name: Run TypeScript check and Build
+        run: yarn build
+
+      - name: Run ESLint
+        run: yarn lint
+
+      - name: Execute Unit tests
+        run: yarn test

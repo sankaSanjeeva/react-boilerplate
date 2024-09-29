@@ -26,6 +26,14 @@ const vitestConfig = vitestDefineConfig({
     coverage: {
       include: ['src/**'],
     },
+    onConsoleLog(log, type) {
+      // hide console logs of error page and context APIs
+      return !(
+        (log.includes('No routes matched location') ||
+          log.includes('must be used within a')) &&
+        type === 'stderr'
+      );
+    },
   },
 });
 

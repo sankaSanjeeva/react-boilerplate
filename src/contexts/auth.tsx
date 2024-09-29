@@ -14,13 +14,7 @@ type AuthProviderState = {
   manageLogout: () => void;
 };
 
-const initialState: AuthProviderState = {
-  token: null,
-  manageLogin: () => {},
-  manageLogout: () => {},
-};
-
-const AuthProviderContext = createContext<AuthProviderState>(initialState);
+const AuthProviderContext = createContext<AuthProviderState | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<AuthProviderState['token']>(() =>
@@ -63,8 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthProviderContext);
 
-  if (context === undefined)
-    throw new Error('useAuth must be used within a AuthProvider');
+  if (!context) throw new Error('useAuth must be used within a AuthProvider');
 
   return context;
 };

@@ -31,10 +31,6 @@ export default function Header() {
   const { token, manageLogout } = useAuth();
   const { theme, setTheme } = useTheme();
 
-  const handleLoginClick = () => {
-    manageLogout();
-  };
-
   const changeTheme = (newTheme: typeof theme) => {
     setTheme(newTheme);
   };
@@ -90,7 +86,7 @@ export default function Header() {
                     <Button variant="outline">Cancel</Button>
                   </DialogClose>
                   <DialogClose asChild>
-                    <Button onClick={handleLoginClick}>Logout</Button>
+                    <Button onClick={manageLogout}>Logout</Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>

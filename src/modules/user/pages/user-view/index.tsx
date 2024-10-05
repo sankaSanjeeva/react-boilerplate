@@ -15,7 +15,7 @@ export default function UserView() {
   }
 
   return (
-    <div className="flex flex-col w-full gap-5 p-10">
+    <div className="flex flex-col w-full gap-5 p-2 sm:p-6 md:p-10">
       <div className="flex justify-between">
         <h1 className="text-2xl font-bold">Profile</h1>
         <Link to="edit">

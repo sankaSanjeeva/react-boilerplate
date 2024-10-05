@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { TOKEN_STORAGE_KEY } from '@/constants';
 
 type AuthProviderState = {
@@ -23,6 +24,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const manageLogin = useCallback(
     (tkn: string) => {
       if (!tkn) {
@@ -39,8 +42,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const manageLogout = useCallback(() => {
     localStorage.removeItem(TOKEN_STORAGE_KEY);
     setToken(null);
+    queryClient.clear();
     navigate('/auth');
-  }, [navigate]);
+  }, [navigate, queryClient]);
 
   const value = useMemo(
     () => ({ token, manageLogin, manageLogout }),

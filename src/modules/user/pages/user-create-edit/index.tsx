@@ -74,7 +74,7 @@ export default function UserCreate() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col w-full gap-5 p-10"
+        className="flex flex-col w-full gap-5 p-2 sm:p-5 md:p-10"
       >
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">{userId ? 'Edit' : 'New'} User</h1>
@@ -108,7 +108,7 @@ export default function UserCreate() {
                       onChange={(files) => {
                         field.onChange(files?.[0]);
                       }}
-                      className="w-80 h-80"
+                      className="w-full max-w-80 h-80"
                       placeholder="Drag 'n' drop here, or click to select a profile picture"
                     />
                   </FormControl>

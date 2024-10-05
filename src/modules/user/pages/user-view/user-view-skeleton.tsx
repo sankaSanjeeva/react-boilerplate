@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UserViewSkeleton() {
   return (
-    <div className="flex flex-col gap-5 p-10 w-full">
+    <div className="flex flex-col gap-5 p-2 sm:p-6 md:p-10">
       <div className="flex justify-between">
         <Skeleton className="w-[74px] h-10 rounded-lg" />
         <Skeleton className="w-[88px] h-10 rounded-lg" />

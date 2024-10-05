@@ -2,14 +2,14 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UserEditSkeleton() {
   return (
-    <div className="flex flex-col w-full gap-5 p-10">
+    <div className="flex flex-col w-full gap-5 p-2 sm:p-5 md:p-10">
       <div className="flex justify-between">
         <Skeleton className="w-28 h-10 rounded-md" />
         <Skeleton className="w-20 h-10 rounded-md" />
       </div>
 
       <div className="p-[25px]">
-        <Skeleton className="w-80 h-80 rounded-md" />
+        <Skeleton className="w-full max-w-80 h-80 rounded-md" />
       </div>
 
       <div className="mt-[25px]">

@@ -37,7 +37,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-10 backdrop-blur border-b border-slate-900/10 dark:border-slate-50/10 bg-white dark:bg-slate-900/75">
-      <div className="max-w-screen-xl mx-auto flex items-center py-3 px-10">
+      <div className="max-w-screen-xl mx-auto flex items-center py-3 px-3 sm:px-5 md:px-10">
         <Link to="/home" className="inline-flex gap-5">
           <img src="/react.svg" alt="icon" />
           <h1 className="text-xl md:text-2xl font-semibold">
@@ -50,7 +50,7 @@ export default function Header() {
             to="/home"
             className={({ isActive }) =>
               cn(
-                'mx-10 font-semibold transition-colors',
+                'mx-5 md:mx-10 font-semibold transition-colors',
                 isActive
                   ? 'text-gray-900 dark:text-gray-100'
                   : 'text-gray-900/50 dark:text-gray-100/75'
@@ -61,7 +61,7 @@ export default function Header() {
           </NavLink>
         )}
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="flex items-center gap-1 md:gap-2 ml-auto">
           {token && (
             <Dialog>
               <DialogTrigger asChild>
@@ -71,7 +71,7 @@ export default function Header() {
                   variant="ghost"
                   data-testid="logout-button"
                 >
-                  <LogoutIcon />
+                  <LogoutIcon className="h-5 w-5 md:h-6 md:w-6" />
                 </Button>
               </DialogTrigger>
               <DialogContent>
@@ -98,11 +98,11 @@ export default function Header() {
               <Button size="icon" variant="ghost" data-testid="theme-button">
                 {/* eslint-disable-next-line no-nested-ternary */}
                 {theme === 'dark' ? (
-                  <DarkModeIcon />
+                  <DarkModeIcon className="h-5 w-5 md:h-6 md:w-6" />
                 ) : theme === 'light' ? (
-                  <LightModeIcon />
+                  <LightModeIcon className="h-5 w-5 md:h-6 md:w-6" />
                 ) : (
-                  <ComputerIcon />
+                  <ComputerIcon className="h-5 w-5 md:h-6 md:w-6" />
                 )}
               </Button>
             </DropdownMenuTrigger>

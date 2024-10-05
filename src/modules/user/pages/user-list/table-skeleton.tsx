@@ -7,7 +7,7 @@ export default function TableSkeleton() {
       <thead>
         <tr>
           <th className="p-3 first:pl-6 last:pr-6 w-[56px]">
-            <span />
+            <Skeleton className="w-5 h-5 rounded" />
           </th>
           <th className="p-3 first:pl-6 last:pr-6 w-[80px]">
             <span />
@@ -29,7 +29,7 @@ export default function TableSkeleton() {
             className="[&:not(:last-child)]:border-b-2 border-b-transparent"
           >
             <td className="p-3 first:pl-6 last:pr-6">
-              <span />
+              <Skeleton className="w-5 h-5 rounded" />
             </td>
             <td className="p-3 first:pl-6 last:pr-6">
               <Skeleton className="w-14 h-14 rounded-full" />

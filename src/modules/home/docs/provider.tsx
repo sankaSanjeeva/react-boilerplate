@@ -9,7 +9,7 @@ import { useTheme } from '@/contexts';
 
 function InlineCode({ children }: { children?: React.ReactNode }) {
   return (
-    <code className="py-1 px-2 text-sm rounded bg-[#faf8f5] dark:bg-[#2b2b2b]">
+    <code className="py-0.5 px-2 text-sm rounded bg-[#faf8f5] dark:bg-[#2b2b2b]">
       {children}
     </code>
   );

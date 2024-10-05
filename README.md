@@ -8,6 +8,8 @@
 This boilerplate provides a solid foundation for building scalable and maintainable React.js applications using Vite and TypeScript. It comes pre-configured with essential tools and features to streamline development and enhance productivity.
 </p>
 
+<p align='center'><a href="https://react-boilerplate-zeta.vercel.app/" target="_blank">See it in action</a></p>
+
 ## ✨ Features
 
 - **TypeScript:** Leverage the power of static typing to catch errors early and improve code quality.
@@ -15,6 +17,7 @@ This boilerplate provides a solid foundation for building scalable and maintaina
 - **Lint Check:** Maintain code consistency and avoid common pitfalls with integrated linting tools.
 - **Authentication Logic:** Get started with built-in authentication logic to manage user authentication and authorization.
 - **Dark Theme:** Easily toggle between light and dark themes to enhance user experience.
+- **Unit Testing:** Ensure your code is reliable and bug-free.
 
 > This setup aims to accelerate your development process, reduce boilerplate code, and ensure your projects adhere to best practices.
 
@@ -37,6 +40,12 @@ yarn
 
 ```
 yarn dev
+```
+
+### Run unit test
+
+```
+yarn test
 ```
 
 > If you are not using [Vercel](https://vercel.com/) to deploy your application, you can remove `vercel.json` from your codebase.

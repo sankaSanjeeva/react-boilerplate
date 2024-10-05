@@ -1,3 +1,14 @@
+## 1.3.0 (October 04, 2024)
+
+### New features
+
+- Add unit testing
+
+### Bug Fixing
+
+- Fix mobile responsive issues
+- Clean query cache when user logout
+
 ## 1.2.0 (September 14, 2024)
 
 ### New features

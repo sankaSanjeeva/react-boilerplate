@@ -1,4 +1,45 @@
+import { useMemo } from 'react';
 import { MDXProvider } from '@mdx-js/react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import {
+  darcula,
+  duotoneLight,
+} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useTheme } from '@/contexts';
+
+function InlineCode({ children }: { children?: React.ReactNode }) {
+  return (
+    <code className="py-1 px-2 text-sm rounded bg-[#faf8f5] dark:bg-[#2b2b2b]">
+      {children}
+    </code>
+  );
+}
+
+function BlockCode({ children }: { children?: React.ReactNode }) {
+  const { theme } = useTheme();
+
+  const style = useMemo(() => {
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
+        .matches
+        ? darcula
+        : duotoneLight;
+
+      return systemTheme;
+    }
+    return theme === 'dark' ? darcula : duotoneLight;
+  }, [theme]);
+
+  return (
+    <SyntaxHighlighter
+      language="javascript"
+      style={style}
+      customStyle={{ borderRadius: 8, maxHeight: 500, overflowY: 'auto' }}
+    >
+      {`${children}`}
+    </SyntaxHighlighter>
+  );
+}
 
 const components = {
   h1: (props: React.HTMLAttributes<HTMLElement>) => (
@@ -24,18 +65,9 @@ const components = {
       {...props}
     />
   ),
-  pre: (props: React.HTMLAttributes<HTMLElement>) => (
-    <pre
-      className="mb-4 mt-6 p-4 max-h-[500px] overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900"
-      {...props}
-    />
-  ),
-  code: (props: React.HTMLAttributes<HTMLElement>) => (
-    <code
-      className="py-1 px-2 font-mono text-sm bg-gray-100 dark:bg-gray-900"
-      {...props}
-    />
-  ),
+  code: InlineCode, // Handles inline code
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  pre: (props: any) => <BlockCode {...props.children.props} />, // Handles block code
   ul: (props: React.HTMLAttributes<HTMLElement>) => (
     <ul className="my-6 ml-6 list-disc" {...props} />
   ),
